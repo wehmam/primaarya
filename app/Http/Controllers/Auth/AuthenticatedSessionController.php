@@ -34,13 +34,12 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if(\Auth::check()) {
-            if(\Auth::user()->role == 'admin') {
-                return redirect("/backend");
-            } else {
-                return redirect("");
+            $role = Auth::user()->role;
+            if($role == 'admin') {
+                return redirect()->intended(RouteServiceProvider::ADMIN);   
             }
+            return redirect()->intended(RouteServiceProvider::USERS);
         }
-
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
