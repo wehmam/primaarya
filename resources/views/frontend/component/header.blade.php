@@ -8,16 +8,30 @@
     <!-- Logo main -->
     <div class="logo">
         {{-- <a href="index.html"><img src="{{ asset("assets/img/core-img/logo.png") }}" alt=""></a> --}}
-        <a href="#">
-            <img src="https://laravel.com/img/logomark.min.svg" alt="">
-        </a>
+        <div class="row">
+            <div class="col-md-12">
+                <a href="#">
+                    <img src="https://laravel.com/img/logomark.min.svg" alt="">
+                </a>
+            </div>
+
+            <div class="col-md-12 mt-5">
+                @if(Auth::check())
+                    <p>Hai Maul</p>
+                @endif
+            </div>
+
+        </div>
     </div>
+
+
 
     <!-- Side Menu Nav -->
     <nav class="amado-nav">
         <ul>
             <li class="{{ Request::segment(1) == "" ? "active" : "" }}"><a href="{{ url("") }}">Home</a></li>
             <li class="{{ Request::segment(1) == "products" ? "active" : "" }}"><a href="{{ url('/products') }}" >Products</a></li>
+            <li class="{{ Request::segment(1) == "login" ? "active" : "" }}"><a href="{{ url("login") }}">Login</a></li>
             {{-- <li class="{{ Request::segment(1) == "cart" ? "active" : "" }}"><a href="{{ url('cart') }}">Cart</a></li> --}}
             {{-- <li class="{{ Request::segment(1) == "checkout" ? "active" : "" }}"><a href="{{ url('checkout') }}">Checkout</a></li> --}}
         </ul>

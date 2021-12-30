@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Backend\ProductBackendController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Frontend\IndexController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +15,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+
+Route::prefix('')->group(function() {
+    Route::get('/', [IndexController::class, 'indexHome']);
+    Route::get('/products', [IndexController::class, 'listProduct']);
+    Route::get('/cart', [IndexController::class, 'listCarts']);
+    Route::get('/checkout', [IndexController::class, 'checkout']);
+});
+
+Route::prefix('backend')->group(function () {
+    Route::get("/", function() {
+        return view("welcome");
+    });
+    Route::get("/login", function() {
+        return view("frontend.pages.login");
+    });
+    Route::resource('product', ProductBackendController::class);
+});
