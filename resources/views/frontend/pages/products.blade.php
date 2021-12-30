@@ -52,11 +52,13 @@
                     <div class="single-product-wrapper">
                         <!-- Product Image -->
                         <div class="product-img">
-                            <img src="{{ asset("assets/img/product-img/product1.jpg") }}" alt="">
-                            <!-- Hover Thumb -->
-                            <!-- <img class="hover-img" src="img/product-img/product2.jpg" alt=""> -->
-                            {{-- <img class="hover-img" src="{{ asset("assets/img/product-img/product2.jpg") }}" alt=""> --}}
-                            <img class="hover-img" src="https://picsum.photos/460/571" alt="">
+                            <a href="{{ url("product/detail/" . $i) }}">
+                                <img src="{{ asset("assets/img/product-img/product1.jpg") }}">
+                                    <!-- Hover Thumb -->
+                                    <!-- <img class="hover-img" src="img/product-img/product2.jpg" alt=""> -->
+                                    {{-- <img class="hover-img" src="{{ asset("assets/img/product-img/product2.jpg") }}" alt=""> --}}
+                                <img class="hover-img" src="https://picsum.photos/460/571">
+                            </a>
                         </div>
 
                         <!-- Product Description -->
@@ -65,7 +67,7 @@
                             <div class="product-meta-data">
                                 <div class="line"></div>
                                 <p class="product-price">$180</p>
-                                <a href="product-details.html">
+                                <a href="{{ url("product/detail/" . $i) }}">
                                     <h6>Modern Chair</h6>
                                 </a>
                             </div>
@@ -79,7 +81,7 @@
                                     <i class="fa fa-star" aria-hidden="true"></i>
                                 </div>
                                 <div class="cart">
-                                    <a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="{{ asset("assets/img/core-img/cart.png") }}" alt=""></a>
+                                    <a href="{{ url("product/detail/1") }}" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="{{ asset("assets/img/core-img/cart.png") }}" alt=""></a>
                                 </div>
                             </div>
                         </div>

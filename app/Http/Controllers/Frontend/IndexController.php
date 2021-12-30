@@ -22,4 +22,8 @@ class IndexController extends Controller
     public function checkout() {
         return view("frontend.pages.checkout");
     }
+
+    public function detailProduct($id = 1) {
+        return view("frontend.pages.product-detail");
+    }
 }

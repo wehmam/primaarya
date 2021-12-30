@@ -31,14 +31,17 @@ Route::prefix('')->group(function() {
     Route::get('/products', [IndexController::class, 'listProduct']);
     Route::get('/cart', [IndexController::class, 'listCarts']);
     Route::get('/checkout', [IndexController::class, 'checkout']);
+    Route::get('/product/detail/{id?}', [IndexController::class, 'detailProduct']);
 });
 
 Route::prefix('backend')->group(function () {
-    Route::get("/", function() {
-        return view("welcome");
-    });
     Route::get("/login", function() {
         return view("frontend.pages.login");
     });
-    Route::resource('product', ProductBackendController::class);
+    Route::middleware(['authAdmin'])->group(function() {
+        Route::get("/", function() {
+            return view("welcome");
+        });
+        Route::resource('product', ProductBackendController::class);
+    });
 });

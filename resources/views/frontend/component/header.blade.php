@@ -16,7 +16,7 @@
             </div>
 
             <div class="col-md-12 mt-5">
-                @if(Auth::check())
+                @if(Auth::check() && Auth::user()->role != 'admin')
                     <p>Hai Maul</p>
                 @endif
             </div>
