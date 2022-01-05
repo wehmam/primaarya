@@ -107,15 +107,18 @@
                 confirmButtonText: 'Logout!'
                 }).then((result) => {
                 if (result.isConfirmed) {
-                    const res =  await fetch("{{ url('logout') }}", {
+                    fetch('{{ url("/logout") }}', {
+                        headers: {
+                            'content-type'      : 'application/json',
+                            'Accept'            : 'application/json',
+                            'X-Requested-With'  : 'XMLHttpRequest',
+                            'X-CSRF-Token'      : '{{ csrf_token() }}'
+                        },
                         method: 'POST',
-                        headers: 'application/json',                        
                     })
-                    // Swal.fire(
-                    // 'Deleted!',
-                    // 'Your file has been deleted.',
-                    // 'success'
-                    // )
+                    .then(res => {
+                        window.location.reload()
+                    })
                 }
             })
         }

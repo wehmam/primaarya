@@ -24,11 +24,14 @@ class AuthLoginController extends Controller
 
         $user = Sentinel::authenticate($auth);
         if(!$user) {
-            $request->session()->flash('alert-class','success');
-            $request->session()->flash('status', "Failed Login!");
+            alertNotify(false, "Authorization Failed!", $request);
             return redirect(url('backend/login'));
         }
-        // return $user;
+        return redirect(url('/backend'));
+    }
+
+    public function logout(){
+        Sentinel::logout();
         return redirect(url('/backend'));
     }
 

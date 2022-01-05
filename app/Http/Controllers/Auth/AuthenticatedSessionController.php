@@ -59,4 +59,8 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    public function destroySession(Request $request) {
+        
+    }
 }

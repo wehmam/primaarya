@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\AuthLoginController;
 use App\Http\Controllers\Backend\ProductBackendController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\IndexController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +22,8 @@ use App\Http\Controllers\Frontend\IndexController;
 // });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+    return redirect(url('/login'));
+});
 
 require __DIR__.'/auth.php';
 
@@ -36,12 +37,13 @@ Route::prefix('')->group(function() {
 });
 
 Route::prefix('backend')->group(function () {
-    Route::get("/login", [AuthLoginController::class, 'index']);
+    Route::get("/login", [AuthLoginController::class, 'index'])->middleware('guestAdmin');
     Route::post("/login", [AuthLoginController::class, 'loginPost']);
     Route::middleware(['authAdmin'])->group(function() {
         Route::get("/", function() {
             return view("backend.layouts");
         });
+        Route::post("/logout", [AuthLoginController::class, 'logout']);
         Route::resource('product', ProductBackendController::class);
     });
 });

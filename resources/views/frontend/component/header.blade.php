@@ -31,8 +31,8 @@
         <ul>
             <li class="{{ Request::segment(1) == "" ? "active" : "" }}"><a href="{{ url("") }}">Home</a></li>
             <li class="{{ Request::segment(1) == "products" ? "active" : "" }}"><a href="{{ url('/products') }}" >Products</a></li>
-            @if(\Auth::check() && \Auth::user()->role != 'admin')
-                <li><a href="#javascript;" onclick="logout()">Logout</a></li>
+            @if(\Auth::check())
+                <li><a href="javascript:;" onclick="logout()">Logout </a></li>
             @else 
                 <li class="{{ Request::segment(1) == "login" ? "active" : "" }}"><a href="{{ url("login") }}">Login</a></li>
             @endif
