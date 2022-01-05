@@ -31,7 +31,11 @@
         <ul>
             <li class="{{ Request::segment(1) == "" ? "active" : "" }}"><a href="{{ url("") }}">Home</a></li>
             <li class="{{ Request::segment(1) == "products" ? "active" : "" }}"><a href="{{ url('/products') }}" >Products</a></li>
-            <li class="{{ Request::segment(1) == "login" ? "active" : "" }}"><a href="{{ url("login") }}">Login</a></li>
+            @if(\Auth::check() && \Auth::user()->role != 'admin')
+                <li><a href="#javascript;" onclick="logout()">Logout</a></li>
+            @else 
+                <li class="{{ Request::segment(1) == "login" ? "active" : "" }}"><a href="{{ url("login") }}">Login</a></li>
+            @endif
             {{-- <li class="{{ Request::segment(1) == "cart" ? "active" : "" }}"><a href="{{ url('cart') }}">Cart</a></li> --}}
             {{-- <li class="{{ Request::segment(1) == "checkout" ? "active" : "" }}"><a href="{{ url('checkout') }}">Checkout</a></li> --}}
         </ul>
@@ -45,9 +49,9 @@
 
     <!-- Cart Menu -->
     <div class="cart-fav-search mb-100">
-        <a href="{{ url("cart") }}" class="cart-nav"><img src="{{ asset("assets/img/core-img/cart.png") }}" alt=""> Cart <span>(0)</span></a>
+        <a href="{{ url("cart") }}" class="cart-nav"><img src="{{ asset("assets/img/core-img/cart.png") }}" alt=""> Cart <span>(3)</span></a>
         <a href="#" class="search-nav"><img src="{{ asset("assets/img/core-img/search.png") }}" alt=""> Search</a>
-        {{-- <a href="#" class="fav-nav"><img src="{{ asset("assets/img/core-img/favorites.png") }}" alt=""> Favourite</a> --}}
+        <a href="#" class="fav-nav"><img src="{{ asset("assets/img/core-img/favorites.png") }}" alt=""> Wishlist <span>(1)</span</a>
     </div>
 
     <!-- Social Button -->

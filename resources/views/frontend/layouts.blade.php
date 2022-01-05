@@ -79,6 +79,7 @@
     <!-- ##### Newsletter Area End ##### -->
 
     @include('frontend.component.footer')
+    
 
     <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
     <script src="{{ asset("assets/js/jquery/jquery-2.2.4.min.js") }}"></script>
@@ -88,8 +89,37 @@
     <script src="{{ asset("assets/js/bootstrap.min.js") }}"></script>
     <!-- Plugins js -->
     <script src="{{ asset("assets/js/plugins.js") }}"></script>
+    {{-- Sweetalert --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Active js -->
     <script src="{{ asset("assets/js/active.js") }}"></script>
+
+    @yield('javascript')
+    <script>
+        function logout() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't Logout!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Logout!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    const res =  await fetch("{{ url('logout') }}", {
+                        method: 'POST',
+                        headers: 'application/json',                        
+                    })
+                    // Swal.fire(
+                    // 'Deleted!',
+                    // 'Your file has been deleted.',
+                    // 'success'
+                    // )
+                }
+            })
+        }
+    </script>
 
 </body>
 

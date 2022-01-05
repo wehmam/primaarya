@@ -40,7 +40,7 @@ Route::prefix('backend')->group(function () {
     });
     Route::middleware(['authAdmin'])->group(function() {
         Route::get("/", function() {
-            return view("welcome");
+            return view("backend.layouts");
         });
         Route::resource('product', ProductBackendController::class);
     });
