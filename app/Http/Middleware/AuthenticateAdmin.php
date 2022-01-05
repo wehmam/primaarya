@@ -16,10 +16,8 @@ class AuthenticateAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(\Auth::check()) {
-            if(\Auth::user()->role == 'admin') {
-                return $next($request);
-            } 
+        if(\Sentinel::check()) {
+            return $next($request);
         }
         return redirect("/backend/login");
     }
