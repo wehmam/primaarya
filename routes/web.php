@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\AuthLoginController;
 use App\Http\Controllers\Backend\ProductBackendController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\IndexController;
@@ -35,9 +36,8 @@ Route::prefix('')->group(function() {
 });
 
 Route::prefix('backend')->group(function () {
-    Route::get("/login", function() {
-        return view("frontend.pages.login");
-    });
+    Route::get("/login", [AuthLoginController::class, 'index']);
+    Route::post("/login", [AuthLoginController::class, 'loginPost']);
     Route::middleware(['authAdmin'])->group(function() {
         Route::get("/", function() {
             return view("backend.layouts");

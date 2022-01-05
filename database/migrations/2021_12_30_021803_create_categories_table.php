@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string("slug");
             $table->string("name");
             $table->boolean("is_active")->default(true);
+            $table->text("main_image");
             $table->timestamps();
             $table->softDeletes();
         });
