@@ -35,10 +35,10 @@
                                 <td><a class="badge badge-{{ $item->is_active ? "success" : "danger" }}">{{ $item->is_active ? "Yes" : "No" }}</a></td>
                                 <td><img src="{{ Storage::url($item->main_image) }}" class="img-thumbnail" width="50px" height="50px" alt=""></td>
                                 <td>
-                                    <form method="POST" action="{{ url('/backend/category/' . $item->id) }}">
+                                    <form method="POST" onsubmit="confirm('Are You sure want to delete this data?')" action="{{ url('/backend/category/' . $item->id) }}">
                                         @csrf
                                         <input type="hidden" name="_method" value="DELETE">
-                                        <button type="submit" onclick="confirm('Are You sure want to delete this data?')" class="btn btn-danger btn-sm">
+                                        <button type="submit" class="btn btn-danger btn-sm">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                         <a href="{{ url("/backend/category/" . $item->id ."/edit") }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
@@ -46,7 +46,9 @@
                                 </td>
                             </tr>
                        @empty
-                           
+                           <tr>
+                               <td colspan="6" class="text center">Data Not Found!</td>
+                           </tr>
                        @endforelse
                     </tbody>
                 </table>

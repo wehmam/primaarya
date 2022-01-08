@@ -8,7 +8,8 @@
             <!-- Single Catagory -->
             <div class="single-products-catagory clearfix">
                 <a href="shop.html">
-                    <img src="{{ asset("assets/img/bg-img/1.jpg") }}" alt="">
+                    {{-- <img src="{{ asset("assets/img/bg-img/1.jpg") }}" alt=""> --}}
+                    <img src="{{ Storage::url("public/images/mXibydR2wuxM5sDbQFaFpyzCF9Jz3yDRdhjLXrBJ.jpg") }}" alt="">
                     <!-- Hover Content -->
                     <div class="hover-content">
                         <div class="line"></div>
