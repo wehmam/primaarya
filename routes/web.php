@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AuthLoginController;
+use App\Http\Controllers\Backend\CategoryBackendController;
 use App\Http\Controllers\Backend\ProductBackendController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\IndexController;
@@ -41,9 +42,10 @@ Route::prefix('backend')->group(function () {
     Route::post("/login", [AuthLoginController::class, 'loginPost']);
     Route::middleware(['authAdmin'])->group(function() {
         Route::get("/", function() {
-            return view("backend.layouts");
+            return view("backend.pages.dashboard");
         });
         Route::post("/logout", [AuthLoginController::class, 'logout']);
         Route::resource('product', ProductBackendController::class);
+        Route::resource('category', CategoryBackendController::class);
     });
 });

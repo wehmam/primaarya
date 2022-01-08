@@ -2,10 +2,10 @@
 
 if(!function_exists("responseCustom")) {
     function responseCustom($data = [], $status = false) {
-        return response([
+        return [
             "status" => $status,
             "data"   => $data
-        ]);
+        ];
     }
 }
 

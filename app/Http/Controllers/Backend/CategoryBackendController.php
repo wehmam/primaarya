@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class CategoryBackendController extends Controller
 {
+    protected $catRepo;
+
+    public function __construct() {
+        $this->catRepo = new \App\Repository\CategoryRepository();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,8 @@ class CategoryBackendController extends Controller
      */
     public function index()
     {
-        //
+        $category = $this->catRepo->getCategory();
+        return view("backend.pages.category.index", compact("category"));
     }
 
     /**
@@ -24,7 +30,7 @@ class CategoryBackendController extends Controller
      */
     public function create()
     {
-        //
+        return view("backend.pages.category.form");
     }
 
     /**
@@ -35,7 +41,12 @@ class CategoryBackendController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $response = $this->catRepo->saveCategory($request);
+        alertNotify($response['status'], $response['data'], $request);
+        if(!$response['status']) {
+            return redirect()->back()->withInput();
+        }
+        return redirect(url("/backend/category"));
     }
 
     /**
@@ -57,7 +68,8 @@ class CategoryBackendController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = $this->catRepo->findCategory($id);
+        return view("backend.pages.category.form", compact("category"));
     }
 
     /**
@@ -69,7 +81,12 @@ class CategoryBackendController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $response = $this->catRepo->updateCategory($request, $id);
+        alertNotify($response['status'], $response['data'], $request);
+        if(!$response['status']) {
+            return redirect()->back()->withInput();
+        } 
+        return redirect(url("/backend/category"));
     }
 
     /**
@@ -78,8 +95,10 @@ class CategoryBackendController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        //
+        $response = $this->catRepo->destroyData($id);
+        alertNotify($response['status'], $response['data'], $request);
+        return redirect()->back();
     }
 }
