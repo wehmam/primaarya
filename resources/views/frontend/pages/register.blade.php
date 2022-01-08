@@ -31,7 +31,7 @@
 <body>
     <body class="font-mono bg-gray-400">
 		<!-- Container -->
-		<div class="container mx-auto">
+		
 			<div class="flex justify-center px-6 my-12">
 				<!-- Row -->
 				<div class="w-full xl:w-3/4 lg:w-11/12 flex">
@@ -43,7 +43,8 @@
 					<!-- Col -->
 					<div class="w-full lg:w-7/12 bg-white p-5 rounded-lg lg:rounded-l-none">
 						<h3 class="pt-4 text-2xl text-center">Create an Account!</h3>
-						<form class="px-8 pt-6 pb-8 mb-4 bg-white rounded" method="post">
+						<form class="px-8 pt-6 pb-8 mb-4 bg-white rounded" action="{{ url("/register") }}" method="post">
+							@csrf
 							<div class="mb-4 md:flex md:justify-between">
 								{{-- <div class="mb-4 md:mr-2 md:mb-0"> --}}
                                 <div class="w-full">
@@ -55,7 +56,8 @@
 										id="firstName"
                                         name="name"
 										type="text"
-										placeholder="Full Name"
+										placeholder="Full Name" 
+										value="{{ old('name') }}"
 									/>
 								</div>
 							</div>
@@ -69,6 +71,7 @@
                                     name="email"
 									type="email"
 									placeholder="Email"
+									value="{{ old('email') }}"
 								/>
 							</div>
 							<div class="mb-4 md:flex md:justify-between">
@@ -93,7 +96,7 @@
 									<input
 										class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
 										id="c_password"
-                                        name="confirmation_password"
+                                        name="password_confirmation"
 										type="password"
 										placeholder="******************"
 									/>
@@ -131,15 +134,19 @@
 		</div>
 	</body>
 
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.querySelector('form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        // Now you can use formData.get('foo'), for example.
-        // Don't forget e.preventDefault() if you want to stop normal form .submission
-        console.log(formData.elements);
-        return false
-    });
+	const sessionStatus  = "{{ Session::has('status') }}"
+	const sessionMessage = "{{ Session::get('status') }}"
+	const sessionClass   = "{{ Session::get('alert-class') }}"
+	console.log("session class " + sessionClass)
+	if(sessionStatus) {
+		Swal.fire(
+			sessionClass == "error" ? "Opps!" : "Success!" ,
+			sessionMessage,
+			sessionClass
+		)
+	}
 </script>
 </body>
 </html>
