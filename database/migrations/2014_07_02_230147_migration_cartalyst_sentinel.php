@@ -122,6 +122,6 @@ class MigrationCartalystSentinel extends Migration
         Schema::drop('roles');
         Schema::drop('role_users');
         Schema::drop('throttle');
-        Schema::drop('users');
+        Schema::drop('admin_users');
     }
 }
