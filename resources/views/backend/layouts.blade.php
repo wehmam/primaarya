@@ -17,6 +17,7 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset("assets/backend/css/sb-admin-2.min.css") }}" rel="stylesheet">
     @yield('css')
+    @yield('js-head') 
 
 </head>
 

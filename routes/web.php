@@ -46,6 +46,7 @@ Route::prefix('backend')->group(function () {
         });
         Route::post("/logout", [AuthLoginController::class, 'logout']);
         Route::resource('product', ProductBackendController::class);
+        Route::delete('/product/delete-photo/{id}', [ProductBackendController::class, 'deletePhotoById']);
         Route::resource('category', CategoryBackendController::class);
     });
 });
