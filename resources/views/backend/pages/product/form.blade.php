@@ -103,21 +103,23 @@
                         </div>
                         <div id="photo-new" class="row"></div>
                     </div>
-                    <div class="form-group">
-                        <h3 class="mb-3">Old Photos</h3>
-                        <div class="row">
-                            @foreach ($product->productPhotos as $item)
-                                <div class="col-md-8 mb-2">
-                                    <img class="img-thumbnail" width="200px" src="{{ Storage::url($item->image) }}" alt="Card image">
-                                </div>
-                                <div class="col-md-2 ">
-                                    <a class="delete-price-type-range-field" style="background: transparent" onclick="deleteOldPhoto({{ $item->id }})">
-                                        <i class="fa fa-2x fa-trash"></i>
-                                    </a>
-                                </div>
-                            @endforeach
+                    @if(isset($product))
+                        <div class="form-group">
+                            <h3 class="mb-3">Old Photos</h3>
+                            <div class="row">
+                                @foreach ($product->productPhotos as $item)
+                                    <div class="col-md-8 mb-2">
+                                        <img class="img-thumbnail" width="200px" src="{{ Storage::url($item->image) }}" alt="Card image">
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <a class="delete-price-type-range-field" style="background: transparent" onclick="deleteOldPhoto({{ $item->id }})">
+                                            <i class="fa fa-2x fa-trash"></i>
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
+                    @endif
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>
             </div>
