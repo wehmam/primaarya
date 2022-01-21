@@ -30,9 +30,9 @@
 </head>
 <body>
 <header> 
-    <a aria-label="Linkedin" class="z-10 mt-9 absolute md:ml-12 ml-9" href="/">
-        <img src="https://importir.com/images/com-01.png" onclick="window.location.open(window.location.origin)" class="w-36" alt="">
-    </a>
+    {{-- <a aria-label="Linkedin" class="z-10 mt-9 absolute md:ml-12 ml-9" href="/"> --}}
+        {{-- <img src="https://importir.com/images/com-01.png" onclick="window.location.open(window.location.origin)" class="w-36" alt=""> --}}
+    {{-- </a> --}}
 </header>
 <div class="h-screen bg-white relative flex flex-col space-y-10 justify-center items-center">
     

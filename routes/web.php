@@ -32,7 +32,12 @@ require __DIR__.'/auth.php';
 Route::prefix('')->group(function() {
     Route::get('/', [IndexController::class, 'indexHome']);
     Route::get('/products', [IndexController::class, 'listProduct']);
-    Route::get('/cart', [IndexController::class, 'listCarts']);
+    Route::get('/products/{slug}', [IndexController::class, 'listProductSlug']);
+
+    Route::prefix("cart")->group(function () {
+        Route::get('/', [IndexController::class, 'listCarts']);
+        Route::post('/order', [IndexController::class, 'addToCarts']);
+    });
     Route::get('/checkout', [IndexController::class, 'checkout']);
     Route::get('/product/detail/{id?}', [IndexController::class, 'detailProduct']);
 });

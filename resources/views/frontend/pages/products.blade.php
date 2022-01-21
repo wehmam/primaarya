@@ -12,13 +12,13 @@
                 <div class="product-topbar d-xl-flex align-items-end justify-content-between">
                     <!-- Total Products -->
                     <div class="total-products">
-                        <p>Showing 1-8 0f 25</p>
-                        <div class="view d-flex">
+                        <p>Showing {{ count($products) > 0 ? 1 : 0 }} - {{ count($products) }} Products</p>
+                        {{-- <div class="view d-flex">
                             <a href="#"><i class="fa fa-th-large" aria-hidden="true"></i></a>
                             <a href="#"><i class="fa fa-bars" aria-hidden="true"></i></a>
-                        </div>
+                        </div> --}}
                     </div>
-                    <!-- Sorting -->
+                    {{-- <!-- Sorting -->
                     <div class="product-sorting d-flex">
                         <div class="sort-by-date d-flex align-items-center mr-15">
                             <p>Sort by</p>
@@ -41,66 +41,86 @@
                                 </select>
                             </form>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
 
         <div class="row">
-            @for ($i = 0; $i < 6; $i++)
-                <div class="col-12 col-sm-6 col-md-12 col-xl-6">
-                    <div class="single-product-wrapper">
-                        <!-- Product Image -->
-                        <div class="product-img">
-                            <a href="{{ url("product/detail/" . $i) }}">
-                                <img src="{{ asset("assets/img/product-img/product1.jpg") }}">
-                                    <!-- Hover Thumb -->
-                                    <!-- <img class="hover-img" src="img/product-img/product2.jpg" alt=""> -->
-                                    {{-- <img class="hover-img" src="{{ asset("assets/img/product-img/product2.jpg") }}" alt=""> --}}
-                                <img class="hover-img" src="https://picsum.photos/460/571">
+            @foreach ($products as $item)
+            <div class="col-12 col-sm-6 col-md-12 col-xl-6">
+                <div class="single-product-wrapper">
+                    <!-- Product Image -->
+                    <div class="product-img">
+                        <a href="{{ url("product/detail/" . $item->id) }}">
+                            <img src="{{ Storage::url($item->productPhotos[0]->image) }}">
+                            <!-- Hover Thumb -->
+                            <!-- <img class="hover-img" src="img/product-img/product2.jpg" alt=""> -->
+                            {{-- <img class="hover-img" src="{{ Storage::url($item->productPhotos[1]->image) }}" alt=""> --}}
+                        </a>
+                    </div>
+
+                    <!-- Product Description -->
+                    <div class="product-description d-flex align-items-center justify-content-between">
+                        <!-- Product Meta Data -->
+                        <div class="product-meta-data">
+                            <div class="line"></div>
+                            <p class="product-price">Rp {{ number_format($item->price, 0) }}</p>
+                            <a href="{{ url("product/detail/" . $item->id) }}">
+                                <h6>{{ $item->title }}</h6>
                             </a>
                         </div>
-
-                        <!-- Product Description -->
-                        <div class="product-description d-flex align-items-center justify-content-between">
-                            <!-- Product Meta Data -->
-                            <div class="product-meta-data">
-                                <div class="line"></div>
-                                <p class="product-price">$180</p>
-                                <a href="{{ url("product/detail/" . $i) }}">
-                                    <h6>Modern Chair</h6>
-                                </a>
+                        <!-- Ratings & Cart -->
+                        <div class="ratings-cart text-right">
+                            <div class="ratings">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
                             </div>
-                            <!-- Ratings & Cart -->
-                            <div class="ratings-cart text-right">
-                                <div class="ratings">
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                </div>
-                                <div class="cart">
-                                    <a href="{{ url("product/detail/1") }}" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="{{ asset("assets/img/core-img/cart.png") }}" alt=""></a>
-                                </div>
+                            <div class="cart">
+                                <a href="{{ url("product/detail/" . $item->id) }}" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="{{ asset("assets/img/core-img/cart.png") }}" alt=""></a>
                             </div>
                         </div>
                     </div>
                 </div>
-            @endfor
+            </div>
+            @endforeach
+          
         </div>
 
         <div class="row">
             <div class="col-12">
                 <!-- Pagination -->
-                <nav aria-label="navigation">
-                    <ul class="pagination justify-content-end mt-50">
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    </ul>
-                </nav>
+                @php
+                    $link_limit = 7;   
+                @endphp
+                @if($products->lastPage() > 1)
+                    <nav aria-label="navigation">
+                        <ul class="pagination justify-content-end mt-50">
+                            @for($i = 1; $i <= $products->lastPage(); $i++) 
+                                @php 
+                                    $half_total_links = floor($link_limit / 2);
+                                    $from = $products->currentPage() - $half_total_links;
+                                    $to = $products->currentPage() + $half_total_links;
+                                    if ($products->currentPage() < $half_total_links) {
+                                        $to += $half_total_links - $products->currentPage();
+                                    }
+                                    if ($products->lastPage() - $products->currentPage() < $half_total_links) {
+                                        $from -= $half_total_links - ($products->lastPage() - $products->currentPage()) - 1;
+                                    }
+                                @endphp
+                                @if ($from < $i && $i < $to)
+                                    @php
+                                        $currUrl = $products->url($i);  
+                                    @endphp
+                                    <li class="page-item {{ $products->currentPage() == $i ? "active" : "" }}"><a class="page-link" href="{{ $products->url($i) }}">{{ $i }}</a></li>
+                                @endif
+                            @endfor
+                        </ul>
+                    </nav>
+                @endif
             </div>
         </div>
     </div>

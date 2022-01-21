@@ -96,6 +96,18 @@
 
     @yield('javascript')
     <script>
+        const sessionStatus  = "{{ Session::has('status') }}"
+        const sessionMessage = "{{ Session::get('status') }}"
+        const sessionClass   = "{{ Session::get('alert-class') }}"
+
+        if(sessionStatus) {
+            Swal.fire(
+                sessionClass == "danger" ? "Opps!" : "Success!" ,
+                sessionMessage,
+                sessionClass
+            )
+        }
+        
         function logout() {
             Swal.fire({
                 title: 'Are you sure?',
