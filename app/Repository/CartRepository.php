@@ -34,10 +34,15 @@ class CartRepository {
                 return responseCustom("Err CR-ATC(4) : Quantity not enough!");
             }
 
-            $cart               = new Cart();
+            $cart               = Cart::where("product_id", $product->id)->first();
+            if(!$cart) {
+                $cart               = new Cart();
+                $cart->quantity     = $request->get("quantity");
+            } else {
+                $cart->quantity     = $request->get("quantity") + $cart->quantity;
+            }
             $cart->user_id      = \Auth::user()->id;
             $cart->product_id   = $product->id;
-            $cart->quantity     = $request->get("quantity");
             $cart->save();
 
             return responseCustom("Success Add Product!", true);

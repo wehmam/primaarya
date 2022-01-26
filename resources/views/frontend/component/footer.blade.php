@@ -7,12 +7,14 @@
                 <div class="single_widget_area">
                     <!-- Logo -->
                     <div class="footer-logo mr-50">
-                        <a href="index.html"><img src="{{ asset("assets/img/core-img/logo2.png") }}" alt=""></a>
+                        <a href="{{ url('/') }}">
+                            <img src="https://laravel.com/img/logomark.min.svg" alt="">
+                        </a>
                     </div>
                     <!-- Copywrite Text -->
-                    <p class="copywrite"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> & Re-distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    <p class="copywrite">
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> Prima Arya Sembada
+                    </p>
                 </div>
             </div>
             <!-- Single Widget Area -->
@@ -24,21 +26,21 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#footerNavContent" aria-controls="footerNavContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
                             <div class="collapse navbar-collapse" id="footerNavContent">
                                 <ul class="navbar-nav ml-auto">
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="index.html">Home</a>
+                                    <li class="nav-item {{ Request::segment(1) == "" ? "active" : "" }}">
+                                        <a class="nav-link" href="{{ url('/') }}">Home</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="shop.html">Shop</a>
+                                    <li class="nav-item {{ Request::segment(1) == "products" ? "active" : "" }}">
+                                        <a class="nav-link" href="{{ url('/products') }}">Products</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="product-details.html">Product</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="cart.html">Cart</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="checkout.html">Checkout</a>
-                                    </li>
+                                    @if(\Auth::check())
+                                        <li class="nav-item {{ Request::segment(1) == "products" ? "active" : "" }}">
+                                            <a class="nav-link" href="javascript:;" onclick="logout()">Logout</a>
+                                        </li>
+                                    @else 
+                                        <li class="nav-item {{ Request::segment(1) == "login" ? "active" : "" }}">
+                                            <a class="nav-link" href="{{ url('/login') }}" onclick="logout()">Login</a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                         </nav>

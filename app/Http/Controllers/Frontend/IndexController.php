@@ -3,15 +3,49 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use App\Repository\CartRepository;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class IndexController extends Controller
 {
     public function indexHome() {
         $categorys = Category::with([])->get();
+        $products  = Product::with(['category'])->get();
+
+        // $spreadSheet    = new Spreadsheet();
+        // $sheet          = $spreadSheet->getActiveSheet();
+        // $sheet->setCellValue('A1', 'No');
+        // $sheet->setCellValue('B1', 'Category');
+        // $sheet->setCellValue('C1', 'Title');
+        // $sheet->setCellValue('D1', 'Quantity');
+        // $sheet->setCellValue('E1', 'Description');
+        // $sheet->setCellValue('F1', 'Price');
+        // $sheet->setCellValue('G1', 'Is Active');
+        // foreach($products as $key => $product) {
+        //     $keyNext = 2;
+        //     $sheet->setCellValue('A' . $keyNext, $key++);
+        //     $sheet->setCellValue('B' . $keyNext, $product->category->name);
+        //     $sheet->setCellValue('C' . $keyNext, $product->title);
+        //     $sheet->setCellValue('D' . $keyNext, $product->qty);
+        //     $sheet->setCellValue('E' . $keyNext, $product->description);
+        //     $sheet->setCellValue('F' . $keyNext, "Rp ." . number_format($product->price));
+        //     $sheet->setCellValue('G' . $keyNext, ($product->is_active ? "Yes" : "No"));
+        //     $keyNext++;
+        // }
+        // $writer = New Xlsx($spreadSheet);
+        //     // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        //     header('Content-Disposition: attachment; filename="products.xlsx"');
+        // $writer->save("php://output");
+
+        // return "oke";
+
+
         return view("frontend.pages.home", compact('categorys'));
     }
 
@@ -22,7 +56,11 @@ class IndexController extends Controller
     }
 
     public function listCarts() {
-        return view("frontend.pages.cart");
+        $carts = Cart::with(['user', 'product', 'product.productPhotos'])
+            ->where("user_id", \Auth::user()->id)
+            ->get();
+
+        return view("frontend.pages.cart", compact('carts'));
     }
 
     public function checkout() {

@@ -79,7 +79,9 @@
             <button class="w-full text-center bg-yellow-400 hover:bg-blue-900 rounded-full text-white py-3 font-medium" type="submit">Sign in</button>
         </form>
     </div>
+    <p>See Products?<a class="text-blue-700 font-bold hover:bg-gray-200 hover:underline hover:p-5 p-2 rounded-full" href="{{ url("/") }}">Home</a></p>
     <p>New To This Platform?<a class="text-blue-700 font-bold hover:bg-gray-200 hover:underline hover:p-5 p-2 rounded-full" href="{{ url("register") }}">Join now</a></p>
+
 </div>
 <script>
     function changeType() {
