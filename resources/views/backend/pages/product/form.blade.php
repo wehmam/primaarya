@@ -56,8 +56,8 @@
                         <div class="form-group col-md-6">
                             <label for="categoryForm">Category</label>
                             <select name="category_id" class="form-control" id="categoryForm" required>
+                                <option value="" selected disabled>Select category</option>
                                 @foreach ($category as $item)
-                                    <option value="" selected disabled>Select category</option>
                                     <option value="{{ $item->id }}" {{ isset($product) ? ($product->category_id == $item->id ? "selected" : "") : "" }}>{{ $item->name }}</option>
                                 @endforeach
                             </select>

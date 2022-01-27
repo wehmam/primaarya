@@ -72,7 +72,7 @@ class ProductRepository {
 
             DB::beginTransaction();
 
-            $product                = Product::find($id);
+            $product                = Product::with(['productPhotos'])->find($id);
             if(!$product) {
                 return responseCustom("Err PR-UP(1) : Product Not Found" );
             }
@@ -94,19 +94,20 @@ class ProductRepository {
                     return responseCustom("Err Validation PR-UP(Val 2) :" . implode(" - ", $validator->messages()->all()));
                 }    
 
-                foreach($request->file("upload_image") as $image) {
-                    $pathFile = Storage::putFile("public/images/products", $image);
-                    $productPhotos              = new ProductPhoto();
-                    $productPhotos->product_id  = $product['id'];
-                    $productPhotos->image       = $pathFile;
-                    $productPhotos->save();
+                foreach($request->file("upload_image") as $key => $image) {
+                    $pathFile                      = Storage::putFile("public/images/products", $image);
+                    $insert[$key]['product_id']    = $product['id'];
+                    $insert[$key]['image']         = $pathFile;
                 }
+
+                $product->productPhotos()->createMany($insert);
             }
 
             DB::commit();
             
             return responseCustom("Success Update Product", true);
         } catch (\Exception $e) {
+            DB::rollback();
             return responseCustom("Err PR-SP(e) : " . $e->getMessage());
         }
     }
