@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use App\Repository\CartRepository;
+use App\Repository\CheckoutRepository;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
@@ -64,7 +65,12 @@ class IndexController extends Controller
     }
 
     public function checkout() {
-        return view("frontend.pages.checkout");
+        $provinces = listProvinces();
+        $carts = Cart::with(['user', 'product', 'product.productPhotos'])
+            ->where("user_id", \Auth::user()->id)
+            ->get();
+
+        return view("frontend.pages.checkout", compact('provinces', 'carts'));
     }
 
     public function detailProduct($id) {
@@ -92,5 +98,28 @@ class IndexController extends Controller
                 ->withInput();
         }
         return redirect(url("/products"));
+    }
+
+    public function checkoutPost(Request $request) {
+        $response = (new CheckoutRepository())->checkout($request);
+        alertNotify($response['status'], $response['data'], $request);
+        if(!$response['status']) {
+            return redirect()
+                ->back()
+                ->withInput();
+        }
+        return redirect(url("/"));
+    }
+
+    public function getListCityByProvinceId($id) {
+        try {
+            $response = json_decode(file_get_contents("http://api.iksgroup.co.id/apilokasi/kabupaten?provinsi=31"), true);
+            if(isset($response['data'])) {
+                return responseCustom($response['data'], true);
+            }
+            return responseCustom($response, false);
+        } catch (\Exception $e) {
+            return responseCustom($e->getMessage());
+        }
     }
 }

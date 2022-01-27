@@ -11,58 +11,39 @@
                         <h2>Checkout</h2>
                     </div>
 
-                    <form action="#" method="post">
+                    <form id="checkoutSubmit" action="{{ url("/checkout") }}" method="post">
+                        @csrf
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <input type="text" class="form-control" id="first_name" value="" placeholder="First Name" required>
+                            <div class="col-12 mb-3">
+                                <select class="w-100" name="province" id="province">
+                                    <option value="" disabled selected>-- Choose Province --</option>
+                                    @forelse ($provinces as $province)
+                                        <option value="{{ strtoupper($province['provinsi_nama']) }}">{{ strtoupper($province['provinsi_nama']) }}</option>
+                                    @empty
+                                        <option value="NULL">-- no province data loaded --</option>
+                                    @endforelse
+                                    <option value="indonesia">Indonesia</option>
+                                </select>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <input type="text" class="form-control" id="last_name" value="" placeholder="Last Name" required>
+                            <div class="col-6 mb-3">
+                                <input type="text" class="form-control" name="city" id="city" placeholder="City" value="{{ old('city') }}">
+                            </div>
+                            <div class="col-6 mb-3">
+                                <input type="text" class="form-control" name="district" id="district" placeholder="District" value="{{ old("district") }}">
                             </div>
                             <div class="col-12 mb-3">
-                                <input type="text" class="form-control" id="company" placeholder="Company Name" value="">
-                            </div>
-                            <div class="col-12 mb-3">
-                                <input type="email" class="form-control" id="email" placeholder="Email" value="">
-                            </div>
-                            <div class="col-12 mb-3">
-                                <select class="w-100" id="country">
-                                <option value="usa">United States</option>
-                                <option value="uk">United Kingdom</option>
-                                <option value="ger">Germany</option>
-                                <option value="fra">France</option>
-                                <option value="ind">India</option>
-                                <option value="aus">Australia</option>
-                                <option value="bra">Brazil</option>
-                                <option value="cana">Canada</option>
-                            </select>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <input type="text" class="form-control mb-3" id="street_address" placeholder="Address" value="">
-                            </div>
-                            <div class="col-12 mb-3">
-                                <input type="text" class="form-control" id="city" placeholder="Town" value="">
+                                {{-- <input type="text" class="form-control mb-3" name="address" id="street_address" placeholder="Address" value="{{ old("address") }}"> --}}
+                                <textarea name="address" class="form-control w-100" id="address" cols="30" rows="10" placeholder="Address">{{ old("address") }}</textarea>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="text" class="form-control" id="zipCode" placeholder="Zip Code" value="">
+                                <input type="number" class="form-control" id="post_code" name="post_code" placeholder="Post Code" value="{{ old("post_code") }}">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="number" class="form-control" id="phone_number" min="0" placeholder="Phone No" value="">
+                                <input type="number" class="form-control" id="phone_number" name="phone" min="0" placeholder="Phone No" value="{{ old("phone") }}">
                             </div>
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <textarea name="comment" class="form-control w-100" id="comment" cols="30" rows="10" placeholder="Leave a comment about your order"></textarea>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="custom-control custom-checkbox d-block mb-2">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                    <label class="custom-control-label" for="customCheck2">Create an accout</label>
-                                </div>
-                                <div class="custom-control custom-checkbox d-block">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                    <label class="custom-control-label" for="customCheck3">Ship to a different address</label>
-                                </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </form>
                 </div>
@@ -71,30 +52,31 @@
                 <div class="cart-summary">
                     <h5>Cart Total</h5>
                     <ul class="summary-table">
-                        <li><span>subtotal:</span> <span>$140.00</span></li>
+                        <li><span>subtotal:</span> <span>Rp. {{ number_format($carts->sum('total_price'), 0) }}</span></li>
                         <li><span>delivery:</span> <span>Free</span></li>
-                        <li><span>total:</span> <span>$140.00</span></li>
+                        <li><span>total:</span> <span>Rp. {{ number_format($carts->sum('total_price'), 0) }}</span></li>
                     </ul>
 
                     <div class="payment-method">
-                        <!-- Cash on delivery -->
                         <div class="custom-control custom-checkbox mr-sm-2">
                             <input type="checkbox" class="custom-control-input" id="cod" checked>
                             <label class="custom-control-label" for="cod">Cash on Delivery</label>
                         </div>
-                        <!-- Paypal -->
-                        <div class="custom-control custom-checkbox mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" id="paypal">
-                            <label class="custom-control-label" for="paypal">Paypal <img class="ml-15" src="img/core-img/paypal.png" alt=""></label>
-                        </div>
                     </div>
 
                     <div class="cart-btn mt-100">
-                        <a href="#" class="btn amado-btn w-100">Checkout</a>
+                        <a onclick="submitBtn()" class="btn amado-btn w-100">Checkout</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+@section('javascript')
+    <script>
+        function submitBtn() {
+            document.getElementById("checkoutSubmit").submit()
+        }
+    </script>
 @endsection

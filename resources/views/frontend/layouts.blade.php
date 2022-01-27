@@ -17,7 +17,6 @@
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="{{ asset("assets/css/core-style.css") }}">
     <link rel="stylesheet" href="{{ asset("assets/style.css") }}">
-
 </head>
 
 <body>
