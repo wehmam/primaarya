@@ -29,8 +29,8 @@
             <div class="row">
                 <div class="col-12">
                     <div class="search-content">
-                        <form action="#" method="get">
-                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                        <form action="{{ url("/products") }}" method="get">
+                            <input type="search" name="keyword" id="search" placeholder="Type your Keyword Product ...">
                             <button type="submit"><img src="{{ asset("assets/img/core-img/search.png") }}" alt=""></button>
                         </form>
                     </div>

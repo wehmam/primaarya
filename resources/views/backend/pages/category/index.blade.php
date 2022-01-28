@@ -52,6 +52,9 @@
                        @endforelse
                     </tbody>
                 </table>
+                <div class="text-center">
+                    {!! $category->appends($_GET)->links() !!}
+                </div>
             </div>
         </div>
     </div>

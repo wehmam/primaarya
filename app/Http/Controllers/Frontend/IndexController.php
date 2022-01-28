@@ -50,9 +50,16 @@ class IndexController extends Controller
         return view("frontend.pages.home", compact('categorys'));
     }
 
-    public function listProduct() {
+    public function listProduct(Request $request) {
         $categorys     = Category::get();
-        $products      = Product::paginate(6);
+        $products      = Product::with(["category"]);
+        $filters       = $request->only("keyword");
+
+        if(isset($filters['keyword'])) {
+            $products->where("title", "LIKE", "%". $filters['keyword'] ."%");
+        }
+        $products = $products->paginate(6);
+
         return view("frontend.pages.products", compact("categorys", "products"));
     }
 

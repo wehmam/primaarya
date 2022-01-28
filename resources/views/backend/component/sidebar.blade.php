@@ -40,6 +40,12 @@
             <span>Product</span></a>
     </li>
 
+    <li class="nav-item {{ Request::segment(2) == "orders" ? "active" : ""  }}">
+        <a class="nav-link" href="{{ url("/backend/orders") }}">
+            <i class="fa fa-shopping-basket"></i>
+            <span>Orders</span></a>
+    </li>
+
     <!-- Nav Item - Utilities Collapse Menu -->
     {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"

@@ -9,7 +9,7 @@ class CategoryRepository{
 
     public function getCategory() {
         return Category::with([])   
-            ->get();
+            ->paginate(10);
     }
 
     public function findCategory($id) {

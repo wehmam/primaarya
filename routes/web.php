@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Backend\AuthLoginController;
 use App\Http\Controllers\Backend\CategoryBackendController;
+use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\OrdersController;
 use App\Http\Controllers\Backend\ProductBackendController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\IndexController;
@@ -49,12 +51,15 @@ Route::prefix('backend')->group(function () {
     Route::get("/login", [AuthLoginController::class, 'index'])->middleware('guestAdmin');
     Route::post("/login", [AuthLoginController::class, 'loginPost']);
     Route::middleware(['authAdmin'])->group(function() {
-        Route::get("/", function() {
-            return view("backend.pages.dashboard");
-        });
+        Route::get("/", [DashboardController::class, 'index']);
         Route::post("/logout", [AuthLoginController::class, 'logout']);
         Route::resource('product', ProductBackendController::class);
         Route::delete('/product/delete-photo/{id}', [ProductBackendController::class, 'deletePhotoById']);
         Route::resource('category', CategoryBackendController::class);
+
+        Route::prefix("orders")->group(function () {
+            Route::get("/", [OrdersController::class, 'index']);
+            Route::get("/detail/{id?}", [OrdersController::class, "detail"]);
+        });
     });
 });

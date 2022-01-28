@@ -10,4 +10,8 @@ class Invoice extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    public function invoice_details() {
+        return $this->hasMany(InvoiceDetail::class);
+    }
 }

@@ -19,7 +19,7 @@ class ProductBackendController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['productPhotos', 'category'])->get();
+        $products = Product::with(['productPhotos', 'category'])->paginate(10);
         return view('backend.pages.product.index', compact('products'));
     }
 

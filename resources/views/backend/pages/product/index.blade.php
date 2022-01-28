@@ -53,6 +53,9 @@
                        @endforelse
                     </tbody>
                 </table>
+                <div class="text-center">
+                    {!! $products->appends($_GET)->links() !!}
+                </div>
             </div>
         </div>
     </div>

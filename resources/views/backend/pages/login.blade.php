@@ -54,13 +54,15 @@
             @csrf 
 
             <div class="mb-4 relative">
+                <span class="block text-sm font-medium text-slate-700 mb-3 leading-tighter text-gray-500 text-base">Email</span>
                 <input id="email" class="w-full rounded px-3 border border-gray-500 pt-5 pb-2 focus:outline-none input active:outline-none @error('email') border-red-500 @enderror" type="text" name="email" value="{{ old('email') }}" autofocus>
-                <label for="email" class="label absolute mb-0 -mt-2 pt-4 pl-3 leading-tighter text-gray-500 text-base mt-2 cursor-text">Email or Phone</label>
             </div>
-            <div class="relative flex items-center border border-gray-500 focus:ring focus:border-blue-500 rounded">
-                <input id="password" class="w-full rounded px-3 pt-5 outline-none pb-2 focus:outline-none active:outline-none input active:border-blue-500 @error('email') border-red-500 @enderror" name="password" type="password"/>
-                <label id="pwdText" for="password" class="label absolute mb-0 -mt-2 pt-4 pl-3 leading-tighter text-gray-500 text-base mt-2">Password</label>
-                <a id="labelShow" class="text-sm font-bold text-blue-700 hover:bg-gray-200 rounded-full px-2 py-1 mr-1 leading-normal cursor-pointer" onclick="changeType()">show</a>
+            <div class="mb-4 relative">
+                <span class="block text-sm font-medium text-slate-700 mb-3 leading-tighter text-gray-500 text-base">Password</span>
+                <div class="relative flex items-center border border-gray-500 focus:ring focus:border-blue-500 rounded">
+                    <input id="password" class="w-full rounded px-3 pt-5 outline-none pb-2 focus:outline-none active:outline-none input active:border-blue-500 @error('email') border-red-500 @enderror" name="password" type="password"/>
+                    <a id="labelShow" class="text-sm font-bold text-blue-700 hover:bg-gray-200 rounded-full px-2 py-1 mr-1 leading-normal cursor-pointer" onclick="changeType()">show</a>
+                </div>    
             </div>
             <div class="-m-2">
                 <a class="font-bold text-blue-700 hover:bg-gray-200 hover:underline hover:p-5 p-4 rounded-full" href="#" onclick="alert('Opps Incoming Feature!')">Forgot password?</a>
