@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLogs;
 use App\Models\Category;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -17,5 +18,10 @@ class DashboardController extends Controller
         $totalOrders    = DB::table("orders")->count();
 
         return view("backend.pages.dashboard", compact("totalOrders", "categoryTotal", "totalIncome", "productsTotal"));
+    }
+
+    public function activityLogs() {
+        $activityLogs = ActivityLogs::orderByDesc("id")->paginate(10);
+        return view("backend.pages.index-activity-logs", compact('activityLogs'));
     }
 }

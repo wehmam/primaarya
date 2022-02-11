@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\LogsExport;
 use App\Http\Controllers\Backend\AuthLoginController;
 use App\Http\Controllers\Backend\CategoryBackendController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -7,7 +8,7 @@ use App\Http\Controllers\Backend\OrdersController;
 use App\Http\Controllers\Backend\ProductBackendController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\IndexController;
-use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,14 @@ Route::prefix('backend')->group(function () {
         Route::prefix("orders")->group(function () {
             Route::get("/", [OrdersController::class, 'index']);
             Route::get("/detail/{id?}", [OrdersController::class, "detail"]);
+        });
+
+        
+        Route::get("activity-logs", [DashboardController::class, 'activityLogs']);
+        Route::prefix("export-csv")->group(function() {
+            Route::get("/activity-logs", function() {
+                return Excel::download(new LogsExport, 'logs-'. date("Y-m-d").'.csv');
+            });
         });
     });
 });

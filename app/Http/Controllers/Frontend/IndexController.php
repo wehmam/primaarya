@@ -8,45 +8,15 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Repository\CartRepository;
 use App\Repository\CheckoutRepository;
+use App\Services\ActivityService;
 use Illuminate\Http\Request;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xls;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
 class IndexController extends Controller
 {
     public function indexHome() {
         $categorys = Category::with([])->get();
         $products  = Product::with(['category'])->get();
-
-        // $spreadSheet    = new Spreadsheet();
-        // $sheet          = $spreadSheet->getActiveSheet();
-        // $sheet->setCellValue('A1', 'No');
-        // $sheet->setCellValue('B1', 'Category');
-        // $sheet->setCellValue('C1', 'Title');
-        // $sheet->setCellValue('D1', 'Quantity');
-        // $sheet->setCellValue('E1', 'Description');
-        // $sheet->setCellValue('F1', 'Price');
-        // $sheet->setCellValue('G1', 'Is Active');
-        // foreach($products as $key => $product) {
-        //     $keyNext = 2;
-        //     $sheet->setCellValue('A' . $keyNext, $key++);
-        //     $sheet->setCellValue('B' . $keyNext, $product->category->name);
-        //     $sheet->setCellValue('C' . $keyNext, $product->title);
-        //     $sheet->setCellValue('D' . $keyNext, $product->qty);
-        //     $sheet->setCellValue('E' . $keyNext, $product->description);
-        //     $sheet->setCellValue('F' . $keyNext, "Rp ." . number_format($product->price));
-        //     $sheet->setCellValue('G' . $keyNext, ($product->is_active ? "Yes" : "No"));
-        //     $keyNext++;
-        // }
-        // $writer = New Xlsx($spreadSheet);
-        //     // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        //     header('Content-Disposition: attachment; filename="products.xlsx"');
-        // $writer->save("php://output");
-
-        // return "oke";
-
-
+        ActivityService::listenEvent("Home", "Page");
+        
         return view("frontend.pages.home", compact('categorys'));
     }
 
@@ -59,6 +29,8 @@ class IndexController extends Controller
             $products->where("title", "LIKE", "%". $filters['keyword'] ."%");
         }
         $products = $products->paginate(6);
+        ActivityService::listenEvent("List_Products", "Page");
+
 
         return view("frontend.pages.products", compact("categorys", "products"));
     }
@@ -67,6 +39,8 @@ class IndexController extends Controller
         $carts = Cart::with(['user', 'product', 'product.productPhotos'])
             ->where("user_id", \Auth::user()->id)
             ->get();
+
+        ActivityService::listenEvent("Carts", "Page");
 
         return view("frontend.pages.cart", compact('carts'));
     }
@@ -77,12 +51,16 @@ class IndexController extends Controller
             ->where("user_id", \Auth::user()->id)
             ->get();
 
+        ActivityService::listenEvent("Checkout", "Page");
+
         return view("frontend.pages.checkout", compact('provinces', 'carts'));
     }
 
     public function detailProduct($id) {
         $product      = Product::with(['productPhotos', 'category'])
             ->find($id);
+
+        ActivityService::listenEvent("Detail_Product", "Page");
 
         return view("frontend.pages.product-detail", compact("product"));
     }
@@ -93,6 +71,9 @@ class IndexController extends Controller
         $products      = Product::with(['productPhotos'])
             ->where('category_id', $slugCategory->id)
             ->paginate(6);
+
+        ActivityService::listenEvent("List_Products", "Page");
+
         return view("frontend.pages.products", compact('products', 'categorys'));
     }
 
@@ -104,6 +85,8 @@ class IndexController extends Controller
                 ->back()
                 ->withInput();
         }
+        ActivityService::listenEvent("Add_To_Carts", "Page", "Action");
+
         return redirect(url("/products"));
     }
 
@@ -115,6 +98,8 @@ class IndexController extends Controller
                 ->back()
                 ->withInput();
         }
+
+        ActivityService::listenEvent("Checkout_Products", "Page" ,"Action");
         return redirect(url("/"));
     }
 
