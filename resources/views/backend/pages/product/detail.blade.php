@@ -52,7 +52,7 @@
                             <div class="card-columns">
                                 @foreach ($product->productPhotos as $item)
                                     <div class="card">
-                                        <img class="card-img"  src="{{ Storage::url($item->image) }}" alt="Card image">
+                                        <img class="card-img"  src="{{ env("PRODUCTION_URL") . Storage::url($item->image) }}" alt="Card image">
                                     </div>
                                 @endforeach
                             </div>

@@ -10,7 +10,7 @@
                 <div class="single-products-catagory clearfix">
                     <a href="{{ url("products/" . $category->slug) }}">
                         {{-- <img src="{{ asset("assets/img/bg-img/1.jpg") }}" alt=""> --}}
-                        <img src="{{ Storage::url($category->main_image) }}" alt="">
+                        <img src="{{ env("PRODUCTION_URL") . Storage::url($category->main_image) }}" alt="">
                         <!-- Hover Content -->
                         <div class="hover-content">
                             <div class="line"></div>

@@ -37,7 +37,7 @@
                             <input type="file" name="main_image" class="form-control" onchange="loadFile(event)">
                         </div>
                         <div class="card mb-5 mt-2" id="cardImage" {{ isset($category) ? "" : "hidden" }}>
-                            <img  src="{{ isset($category) ? Storage::url($category->main_image)  : '' }}" class="card-img-top" id="output" alt="Card image cap">
+                            <img  src="{{ isset($category) ? env("PRODUCTION_URL") . Storage::url($category->main_image)  : '' }}" class="card-img-top" id="output" alt="Card image cap">
                           </div>
                     <a href="{{ url("backend/category") }}" class="btn btn-sm btn-warning">Back</a>
                         <button type="submit" class="btn btn-sm btn-primary float-right">Save</button>

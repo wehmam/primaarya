@@ -109,7 +109,7 @@
                             <div class="row">
                                 @foreach ($product->productPhotos as $item)
                                     <div class="col-md-8 mb-2">
-                                        <img class="img-thumbnail" width="200px" src="{{ Storage::url($item->image) }}" alt="Card image">
+                                        <img class="img-thumbnail" width="200px" src="{{ env("PRODUCTION_URL") . Storage::url($item->image) }}" alt="Card image">
                                     </div>
                                     <div class="col-md-2 ">
                                         <a class="delete-price-type-range-field" style="background: transparent" onclick="deleteOldPhoto({{ $item->id }})">

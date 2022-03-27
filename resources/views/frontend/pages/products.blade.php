@@ -25,7 +25,7 @@
                     <!-- Product Image -->
                     <div class="product-img">
                         <a href="{{ url("product/detail/" . $item->id) }}">
-                            <img src="{{ Storage::url($item->productPhotos[0]->image) }}">
+                            <img src="{{ env("PRODUCTION_URL") . Storage::url($item->productPhotos[0]->image) }}">
                             <!-- Hover Thumb -->
                             <!-- <img class="hover-img" src="img/product-img/product2.jpg" alt=""> -->
                             {{-- <img class="hover-img" src="{{ Storage::url($item->productPhotos[1]->image) }}" alt=""> --}}

@@ -12,7 +12,7 @@ use App\Services\ActivityService;
 use Illuminate\Http\Request;
 class IndexController extends Controller
 {
-    public function indexHome() {
+    public function indexHome(Request $request) {
         $categorys = Category::with([])->get();
         $products  = Product::with(['category'])->get();
         ActivityService::listenEvent("Home", "Page");

@@ -33,7 +33,7 @@
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->slug }}</td>
                                 <td><a class="badge badge-{{ $item->is_active ? "success" : "danger" }}">{{ $item->is_active ? "Yes" : "No" }}</a></td>
-                                <td><img src="{{ Storage::url($item->main_image) }}" class="img-thumbnail" width="50px" height="50px" alt=""></td>
+                                <td><img src="{{ env("PRODUCTION_URL") . Storage::url($item->main_image) }}" class="img-thumbnail" width="50px" height="50px" alt=""></td>
                                 <td>
                                     <form method="POST" onsubmit="confirm('Are You sure want to delete this data?')" action="{{ url('/backend/category/' . $item->id) }}">
                                         @csrf

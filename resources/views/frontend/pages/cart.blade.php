@@ -24,7 +24,7 @@
                                 <tr>
                                     <td class="cart_product_img">
                                         <a href="#">
-                                            <img src="{{ Storage::url($item->product->productPhotos[0]->image) }}" alt="">
+                                            <img src="{{ env("PRODUCTION_URL") . Storage::url($item->product->productPhotos[0]->image) }}" alt="">
                                         </a>
                                     </td>
                                     <td class="cart_product_desc">
