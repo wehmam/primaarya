@@ -44,7 +44,7 @@ Route::prefix('')->group(function() {
             Route::post('/order', [IndexController::class, 'addToCarts']);
         });
         Route::get('/checkout', [IndexController::class, 'checkout']);     
-        Route::post('/checkout', [IndexController::class, 'checkoutPost']);
+        Route::post('/checkout', [iIndexController::class, 'checkoutPost']);
     });
 });
 

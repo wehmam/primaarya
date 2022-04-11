@@ -15,6 +15,7 @@ class IndexController extends Controller
     public function indexHome(Request $request) {
         $categorys = Category::with([])->get();
         $products  = Product::with(['category'])->get();
+
         ActivityService::listenEvent("Home", "Page");
         
         return view("frontend.pages.home", compact('categorys'));
@@ -60,7 +61,7 @@ class IndexController extends Controller
         $product      = Product::with(['productPhotos', 'category'])
             ->find($id);
 
-        ActivityService::listenEvent("Detail_Product", "Page");
+        ActivityService::listenEvent("Detail_Product", "Page", "Visited", $product->id .".".$product->category_id);
 
         return view("frontend.pages.product-detail", compact("product"));
     }
@@ -72,7 +73,7 @@ class IndexController extends Controller
             ->where('category_id', $slugCategory->id)
             ->paginate(6);
 
-        ActivityService::listenEvent("List_Products", "Page");
+        ActivityService::listenEvent("List_Products", "Page", "Visited", $slugCategory->id);
 
         return view("frontend.pages.products", compact('products', 'categorys'));
     }
