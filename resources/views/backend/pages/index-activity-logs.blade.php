@@ -19,6 +19,7 @@
                         <tr>
                             <th>Title</th>
                             <th>Type</th>
+                            <th>Case Id</th>
                             <th>Email</th>
                             <th>Activity</th>
                             <th>Ip Address</th>
@@ -32,6 +33,7 @@
                             <tr>
                                 <td>{{ $item->title }}</td>
                                 <td>{{ $item->type }}</td>
+                                <td>{{ $item->case_id }}</td>
                                 <td>{{ $item->email }}</td>
                                 <td>{{ $item->activity }}</td>
                                 <td>{{ $item->ip_address }}</td>
