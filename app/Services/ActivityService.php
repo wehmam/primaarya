@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Services;
 
@@ -6,8 +6,22 @@ use App\Models\ActivityLogs;
 use App\Models\Cases;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Contracts\Activity;
+use Spatie\Activitylog\Models\Activity as ModelsActivity;
 
 class ActivityService {
+
+    public static function activityLogs($logName = '' ,$desc = '', $productId = '') {
+        activity()->causedBy(Auth::user())
+            ->tap(function(Activity $activity) use($desc, $logName, $productId) {
+                $activity->description = $desc;
+                $activity->log_name = $logName;
+                if(!empty($productId)) {
+                    $activity->product_id = $productId;
+                }
+                $activity->save();
+            });
+    }
 
     public static function listenEvent($eventTitle = '', $postType = '', $activity = 'Visited', $productsLog = '') {
 
@@ -15,7 +29,7 @@ class ActivityService {
 
         $cases = Cases::where("session", session()->getId())
             ->first();
-            
+
         if(!$cases) {
             $cases = new Cases();
         }
