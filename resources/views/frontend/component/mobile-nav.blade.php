@@ -4,7 +4,7 @@
     <div class="amado-navbar-brand">
         <a href="{{ url('/') }}">
             {{-- <img src="{{ asset("assets/img/core-img/logo.png") }}" alt=""> --}}
-            <img src="https://laravel.com/img/logomark.min.svg" alt="">
+            <img src="{{ asset('assets/img/Logo.png') }}" alt="">
         </a>
     </div>
     <!-- Navbar Toggler -->

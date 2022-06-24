@@ -12,7 +12,8 @@
     <title>@yield('title')</title>
 
     <!-- Favicon  -->
-    <link rel="icon" href="{{ asset("assets/img/core-img/favicon.ico") }}">
+    {{-- <link rel="icon" href="{{ asset("assets/img/core-img/favicon.ico") }}"> --}}
+    <link rel="icon" href="{{ asset('assets/img/Logo.png') }}">
 
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="{{ asset("assets/css/core-style.css") }}">
@@ -48,7 +49,7 @@
         @include('frontend.component.header')
 
         @yield('content')
-       
+
     </div>
     <!-- ##### Main Content Wrapper End ##### -->
 
@@ -78,7 +79,7 @@
     <!-- ##### Newsletter Area End ##### -->
 
     @include('frontend.component.footer')
-    
+
 
     <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
     <script src="{{ asset("assets/js/jquery/jquery-2.2.4.min.js") }}"></script>
@@ -106,7 +107,7 @@
                 sessionClass
             )
         }
-        
+
         function logout() {
             Swal.fire({
                 title: 'Are you sure?',

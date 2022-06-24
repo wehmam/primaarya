@@ -8,7 +8,7 @@
                     <!-- Logo -->
                     <div class="footer-logo mr-50">
                         <a href="{{ url('/') }}">
-                            <img src="https://laravel.com/img/logomark.min.svg" alt="">
+                            <img src="{{ asset('assets/img/PRIMA-ARYA.png') }}" alt="">
                         </a>
                     </div>
                     <!-- Copywrite Text -->
@@ -36,7 +36,7 @@
                                         <li class="nav-item {{ Request::segment(1) == "products" ? "active" : "" }}">
                                             <a class="nav-link" href="javascript:;" onclick="logout()">Logout</a>
                                         </li>
-                                    @else 
+                                    @else
                                         <li class="nav-item {{ Request::segment(1) == "login" ? "active" : "" }}">
                                             <a class="nav-link" href="{{ url('/login') }}" onclick="logout()">Login</a>
                                         </li>

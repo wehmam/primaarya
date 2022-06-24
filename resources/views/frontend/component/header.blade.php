@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-12">
                 <a href="#">
-                    <img src="https://laravel.com/img/logomark.min.svg" alt="">
+                    <img src="{{ asset('assets/img/PRIMA-ARYA.png') }}" alt="">
                 </a>
             </div>
 
