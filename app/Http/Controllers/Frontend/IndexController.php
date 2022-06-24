@@ -61,7 +61,7 @@ class IndexController extends Controller
         $product      = Product::with(['productPhotos', 'category'])
             ->find($id);
 
-        ActivityService::activityLogs('H', 'Melihat Detail Produk');
+        ActivityService::activityLogs('H', 'Melihat Detail Produk', $id);
 
         return view("frontend.pages.product-detail", compact("product"));
     }
