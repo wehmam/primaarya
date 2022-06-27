@@ -2,20 +2,37 @@
 
 namespace App\Exports;
 
-use App\Models\ActivityLogs;
+use App\Models\ActivityLog;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class LogsExport implements FromCollection, WithHeadings
 {
-  
+
     public function headings() : array {
-        return ["Date", "Case_Id","Title", "Type", "Email", "Activity", "Ip_Address", "Location", "Custom_Logs"];
+        return ["log_name", "description", "product_id", "product_name", "category_id", "category_name", "causer_id", "email", 'created_at'];
     }
     public function collection()
     {
-        return ActivityLogs::select("created_at", "case_id" ,"title", "type", "email", "activity", "ip_address", "location", "custom_logs")
-            ->orderByDesc("id")
+        $activityLogs = ActivityLog::with(['product', 'category'])
+            ->orderBy("created_at", "DESC")
             ->get();
+
+        $array = collect([]);
+        $activityLogs->each(function($item) use($array) {
+            $array->push([
+                $item->log_name,
+                $item->description,
+                $item->product_id ?? "-",
+                $item->product->title ?? "-",
+                $item->category_id ?? "-",
+                $item->category->name ?? "-",
+                $item->causer_id ?? "-",
+                $item->user->email ?? "-",
+                $item->created_at
+            ]);
+        });
+
+        return $array;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\ActivityLogs;
 use App\Models\Category;
 use App\Models\Order;
@@ -21,7 +22,10 @@ class DashboardController extends Controller
     }
 
     public function activityLogs() {
-        $activityLogs = ActivityLogs::orderByDesc("id")->paginate(10);
+        $activityLogs = ActivityLog::with(['product', 'category'])
+            ->orderBy("created_at", "DESC")
+            ->paginate(10);
+
         return view("backend.pages.index-activity-logs", compact('activityLogs'));
     }
 }

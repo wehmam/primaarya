@@ -17,35 +17,33 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Type</th>
-                            <th>Case Id</th>
+                            <th>Log Name</th>
+                            <th>Description</th>
+                            <th>Product Id</th>
+                            <th>Product Name</th>
+                            <th>Category Id</th>
+                            <th>Category Name</th>
                             <th>Email</th>
-                            <th>Activity</th>
-                            <th>Ip Address</th>
-                            <th>Location</th>
-                            <th>Referrer</th>
                             <th>Date / Time</th>
                         </tr>
                     </thead>
                     <tbody>
                        @forelse ($activityLogs as $key => $item)
                             <tr>
-                                <td>{{ $item->title }}</td>
-                                <td>{{ $item->type }}</td>
-                                <td>{{ $item->case_id }}</td>
-                                <td>{{ $item->email }}</td>
-                                <td>{{ $item->activity }}</td>
-                                <td>{{ $item->ip_address }}</td>
-                                <td>{{ $item->location }}</td>
-                                <td>{{ $item->url }}</td>
+                                <td>{{ $item->log_name }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ $item->category_id ?? "-" }}</td>
+                                <td>{{ $item->category->name ?? "-" }}</td>
+                                <td>{{ $item->product_id ?? "-" }}</td>
+                                <td>{{ $item->product->title ?? "-" }}</td>
+                                <td>{{ $item->user->email ?? "-" }}</td>
                                 <td>{{ $item->created_at }}</td>
                             </tr>
                        @empty
                            <tr>
                                <td colspan="6" class="text center">Data Not Found!</td>
                            </tr>
-                       @endforelse 
+                       @endforelse
                     </tbody>
                 </table>
                 <div class="text-center">
