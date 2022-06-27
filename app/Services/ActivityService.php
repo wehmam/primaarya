@@ -11,13 +11,16 @@ use Spatie\Activitylog\Models\Activity as ModelsActivity;
 
 class ActivityService {
 
-    public static function activityLogs($logName = '' ,$desc = '', $productId = '') {
+    public static function activityLogs($logName = '' ,$desc = '', $productId = '', $categoryId = '') {
         activity()->causedBy(Auth::user())
-            ->tap(function(Activity $activity) use($desc, $logName, $productId) {
+            ->tap(function(Activity $activity) use($desc, $logName, $productId, $categoryId) {
                 $activity->description = $desc;
                 $activity->log_name = $logName;
                 if(!empty($productId)) {
                     $activity->product_id = $productId;
+                }
+                if(!empty($categoryId)) {
+                    $activity->category_id = $categoryId;
                 }
                 $activity->save();
             });

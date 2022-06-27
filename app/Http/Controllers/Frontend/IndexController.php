@@ -16,7 +16,7 @@ class IndexController extends Controller
         $categorys = Category::with([])->get();
         $products  = Product::with(['category'])->get();
 
-        ActivityService::activityLogs('B', 'Home');
+        ActivityService::activityLogs('C', 'Home');
 
         return view("frontend.pages.home", compact('categorys'));
     }
@@ -30,7 +30,7 @@ class IndexController extends Controller
             $products->where("title", "LIKE", "%". $filters['keyword'] ."%");
         }
         $products = $products->paginate(6);
-        ActivityService::activityLogs('C', 'Melihat Kategori');
+        ActivityService::activityLogs('D', 'Melihat Kategori');
 
 
         return view("frontend.pages.products", compact("categorys", "products"));
@@ -41,7 +41,7 @@ class IndexController extends Controller
             ->where("user_id", \Auth::user()->id)
             ->get();
 
-        ActivityService::activityLogs('F', 'Melihat Keranjang');
+        ActivityService::activityLogs('G', 'Melihat Keranjang');
 
         return view("frontend.pages.cart", compact('carts'));
     }
@@ -52,7 +52,7 @@ class IndexController extends Controller
             ->where("user_id", \Auth::user()->id)
             ->get();
 
-        ActivityService::activityLogs('I', 'Melihat Checkout');
+        ActivityService::activityLogs('H', 'Detail Checkout');
 
         return view("frontend.pages.checkout", compact('provinces', 'carts'));
     }
@@ -61,7 +61,7 @@ class IndexController extends Controller
         $product      = Product::with(['productPhotos', 'category'])
             ->find($id);
 
-        ActivityService::activityLogs('H', 'Melihat Detail Produk', $id);
+        ActivityService::activityLogs('E', 'Melihat Detail Produk', $id, $product->category_id);
 
         return view("frontend.pages.product-detail", compact("product"));
     }
@@ -73,7 +73,7 @@ class IndexController extends Controller
             ->where('category_id', $slugCategory->id)
             ->paginate(6);
 
-        ActivityService::activityLogs('D', 'Melihat Produk');
+        ActivityService::activityLogs('D', 'Melihat Kategori', '', $slugCategory->id);
 
         return view("frontend.pages.products", compact('products', 'categorys'));
     }
@@ -86,7 +86,7 @@ class IndexController extends Controller
                 ->back()
                 ->withInput();
         }
-        ActivityService::activityLogs('E', 'Menambahkan Keranjang');
+        ActivityService::activityLogs('F', 'Menambahkan Keranjang');
 
         return redirect(url("/products"));
     }
@@ -99,7 +99,7 @@ class IndexController extends Controller
                 ->back()
                 ->withInput();
         }
-        ActivityService::activityLogs('G', 'Melakukan Pembayaran');
+        ActivityService::activityLogs('I', 'Checkout');
 
         return redirect(url("/"));
     }

@@ -30,7 +30,7 @@ class LogSuccessfulLogout
             ->causedBy($event->user)
             ->tap(function(Activity $activity) {
                 $activity->description = 'Logout';
-                $activity->log_name = 'L';
+                $activity->log_name = 'J';
                 $activity->save();
             });
     }
