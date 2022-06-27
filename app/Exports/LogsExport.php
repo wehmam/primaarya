@@ -10,7 +10,7 @@ class LogsExport implements FromCollection, WithHeadings
 {
 
     public function headings() : array {
-        return ["log_name", "description", "product_id", "product_name", "category_id", "category_name", "causer_id", "email", 'created_at'];
+        return ["id", "log_name", "description", "product_id", "product_name", "category_id", "category_name", "causer_id", "email", 'created_at'];
     }
     public function collection()
     {
@@ -21,6 +21,7 @@ class LogsExport implements FromCollection, WithHeadings
         $array = collect([]);
         $activityLogs->each(function($item) use($array) {
             $array->push([
+                $item->id,
                 $item->log_name,
                 $item->description,
                 $item->product_id ?? "-",
