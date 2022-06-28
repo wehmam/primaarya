@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class IndexController extends Controller
 {
     public function indexHome(Request $request) {
-        $categorys = Category::with([])->get();
+        $categorys = Category::with([])->where('is_active', 1)->get();
         $products  = Product::with(['category'])->get();
 
         ActivityService::activityLogs('C', 'Home');
