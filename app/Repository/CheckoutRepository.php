@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Repository;
 
@@ -20,11 +20,11 @@ class CheckoutRepository {
                 "district"  => "required",
                 "address"   => "required",
                 "post_code" => "required",
-                "phone"     => "required" 
+                "phone"     => "required"
             ]);
 
             if($validator->fails()) return responseCustom(
-                $validator->messages()->all()->implode(" - ")
+                collect($validator->messages()->all())->implode(" - ")
             );
 
             DB::beginTransaction();
@@ -80,5 +80,5 @@ class CheckoutRepository {
             return responseCustom($e->getMessage());
         }
     }
-   
+
 }

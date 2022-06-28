@@ -43,8 +43,8 @@ Route::prefix('')->group(function() {
             Route::get('/', [IndexController::class, 'listCarts']);
             Route::post('/order', [IndexController::class, 'addToCarts']);
         });
-        Route::get('/checkout', [IndexController::class, 'checkout']);     
-        Route::post('/checkout', [iIndexController::class, 'checkoutPost']);
+        Route::get('/checkout', [IndexController::class, 'checkout']);
+        Route::post('/checkout', [IndexController::class, 'checkoutPost']);
     });
 });
 
@@ -63,7 +63,7 @@ Route::prefix('backend')->group(function () {
             Route::get("/detail/{id?}", [OrdersController::class, "detail"]);
         });
 
-        
+
         Route::get("activity-logs", [DashboardController::class, 'activityLogs']);
         Route::prefix("export-csv")->group(function() {
             Route::get("/activity-logs", function() {
