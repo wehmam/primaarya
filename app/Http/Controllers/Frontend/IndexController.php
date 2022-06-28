@@ -22,8 +22,8 @@ class IndexController extends Controller
     }
 
     public function listProduct(Request $request) {
-        $categorys     = Category::get();
-        $products      = Product::with(["category"]);
+        $categorys     = Category::where('is_active', 1)->get();
+        $products      = Product::with(["category"])->where('is_active', 1);
         $filters       = $request->only("keyword");
 
         if(isset($filters['keyword'])) {
@@ -67,10 +67,14 @@ class IndexController extends Controller
     }
 
     public function listProductSlug(Request $request, $slug) {
-        $slugCategory  = Category::where('slug', $slug)->first();
+        $slugCategory  = Category::where('slug', $slug)->where('is_active', 1)->first();
+        if(!$slugCategory) {
+            return redirect(url('/products'));
+        }
         $categorys     = Category::get();
         $products      = Product::with(['productPhotos'])
             ->where('category_id', $slugCategory->id)
+            ->where('is_active', 1)
             ->paginate(6);
 
         ActivityService::activityLogs('D', 'Melihat Kategori', '', $slugCategory->id);

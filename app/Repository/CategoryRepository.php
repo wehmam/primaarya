@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Repository;
 
@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class CategoryRepository{
 
     public function getCategory() {
-        return Category::with([])   
+        return Category::with([])
             ->paginate(10);
     }
 
@@ -23,7 +23,7 @@ class CategoryRepository{
                 "is_active" => "required",
                 "main_image"     => "required|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
             ]);
-            
+
             if($validator->fails()) {
                 return responseCustom("Err Validation :" . implode(" - ", $validator->messages()->all()));
             }
@@ -59,7 +59,7 @@ class CategoryRepository{
                 "name"      => "required|unique:categories,id," .$id,
                 "is_active" => "required",
             ]);
-            
+
             if($validator->fails()) {
                 return responseCustom("Err Validation :" . implode(" - ", $validator->messages()->all()));
             }
@@ -71,7 +71,7 @@ class CategoryRepository{
 
                 if($validator->fails()) {
                     return responseCustom("Err Validation :" . implode(" - ", $validator->messages()->all()));
-                }    
+                }
                 if(Storage::exists($category->main_image)) {
                     Storage::delete($category->main_image);
                 }
@@ -109,7 +109,7 @@ class CategoryRepository{
             if(Storage::exists($category->main_image)) {
                 Storage::delete($category->main_image);
             }
-            $category->delete();
+            $category->forceDelete();
 
             return responseCustom("Success To delete category!", true);
         } catch (\Exception $e) {

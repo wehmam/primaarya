@@ -35,14 +35,10 @@
                                 <td><a class="badge badge-{{ $item->is_active ? "success" : "danger" }}">{{ $item->is_active ? "Yes" : "No" }}</a></td>
                                 <td><img src="{{ env("PRODUCTION_URL") . Storage::url($item->main_image) }}" class="img-thumbnail" width="50px" height="50px" alt=""></td>
                                 <td>
-                                    <form method="POST" onsubmit="confirm('Are You sure want to delete this data?')" action="{{ url('/backend/category/' . $item->id) }}">
-                                        @csrf
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                        <a href="{{ url("/backend/category/" . $item->id ."/edit") }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                    </form>
+                                    <button onclick="deleteCategory({{ $item->id }})" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                    <a href="{{ url("/backend/category/" . $item->id ."/edit") }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                 </td>
                             </tr>
                        @empty
@@ -108,6 +104,42 @@
         const sessionMessage = "{{ Session::get('status') }}"
         const sessionClass   = "{{ Session::get('alert-class') }}"
 
+
+        function deleteCategory(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You will not be able to recover this category!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#375BB2",
+                cancelButtonColor: "#F44336",
+                confirmButtonText: "Delete",
+                cancelButtonText: "Cancel",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(window.location.origin + "/backend/category/" + id, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    }).then(response => {
+                        if (response.status) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success",
+                                confirmButtonText: "Ok",
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    })
+                }
+            });
+        }
+
         if(sessionStatus) {
             Swal.fire(
                 sessionClass == "danger" ? "Opps!" : "Success!" ,
@@ -116,28 +148,6 @@
             )
         }
 
-        $('#exampleModal').on('show.bs.modal', function (event) {
-            let button = $(event.relatedTarget) // Button that triggered the modal
-            let titleModal = button.data('whatever') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            let modal = $(this)
-            modal.find('.modal-title').text(titleModal)
-            // modal.find('.modal-body input').val(titleModal)
-        })
-
-        $('#onSubmit').submit((e) => {
-            let category     = $('#category-name').val();
-            let categorySlug = $('#slug-category').val();
-            let isActive    = $('#is_active').val();
-            let mainImage   = $('#main_image').files();
-
-            console.log(mainImage)
-
-
-            e.preventDefault();
-            return false;
-        })
-
     </script>
 @endsection
+

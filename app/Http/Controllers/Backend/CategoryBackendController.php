@@ -85,7 +85,7 @@ class CategoryBackendController extends Controller
         alertNotify($response['status'], $response['data'], $request);
         if(!$response['status']) {
             return redirect()->back()->withInput();
-        } 
+        }
         return redirect(url("/backend/category"));
     }
 
@@ -98,7 +98,6 @@ class CategoryBackendController extends Controller
     public function destroy($id, Request $request)
     {
         $response = $this->catRepo->destroyData($id);
-        alertNotify($response['status'], $response['data'], $request);
         return redirect()->back();
     }
 }
