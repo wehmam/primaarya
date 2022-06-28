@@ -21,6 +21,8 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
+        ActivityService::activityLogs('C', 'Halaman Register');
+
         return view('frontend.pages.register');
     }
 
@@ -59,7 +61,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        ActivityService::activityLogs('B', 'Register');
+        ActivityService::activityLogs('D', 'MElakukan Register');
 
         return redirect(RouteServiceProvider::HOME);
     }

@@ -29,8 +29,8 @@ class LogSuccessfulLogin
         activity()
             ->causedBy($event->user)
             ->tap(function(Activity $activity) {
-                $activity->description = 'Login';
-                $activity->log_name = 'A';
+                $activity->description = 'Berhasil Login';
+                $activity->log_name = 'B';
                 $activity->save();
             });
 

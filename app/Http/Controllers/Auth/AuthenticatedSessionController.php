@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
+use App\Services\ActivityService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,6 +19,8 @@ class AuthenticatedSessionController extends Controller
     public function create()
     {
         // return view('auth.login');
+        ActivityService::activityLogs('A', 'Halaman Login');
+
         return view('frontend.pages.login');
     }
 
@@ -36,7 +39,7 @@ class AuthenticatedSessionController extends Controller
         if(\Auth::check()) {
             $role = Auth::user()->role;
             if($role == 'admin') {
-                return redirect()->intended(RouteServiceProvider::ADMIN);   
+                return redirect()->intended(RouteServiceProvider::ADMIN);
             }
             return redirect()->intended(RouteServiceProvider::USERS);
         }
@@ -61,6 +64,6 @@ class AuthenticatedSessionController extends Controller
     }
 
     public function destroySession(Request $request) {
-        
+
     }
 }
