@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Cases;
 use App\Providers\RouteServiceProvider;
 use App\Services\ActivityService;
 use Illuminate\Http\Request;
@@ -32,9 +33,17 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        $cases = Cases::where("session", session()->getId())
+            ->first();
+
         $request->authenticate();
 
-        $request->session()->regenerate();
+        // $request->session()->regenerate();
+
+        $cases->session = session()->getId();
+        $cases->save();
+
+        ActivityService::activityLogs('B', 'Berhasil Login');
 
         if(\Auth::check()) {
             $role = Auth::user()->role;
@@ -55,6 +64,8 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request)
     {
         Auth::guard('web')->logout();
+
+        ActivityService::activityLogs('L', 'Logout');
 
         $request->session()->invalidate();
 

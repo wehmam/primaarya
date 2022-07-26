@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Services\ActivityService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Spatie\Activitylog\Contracts\Activity;
@@ -26,12 +27,13 @@ class LogSuccessfulLogout
      */
     public function handle($event)
     {
-        activity()
-            ->causedBy($event->user)
-            ->tap(function(Activity $activity) {
-                $activity->description = 'Logout';
-                $activity->log_name = 'L';
-                $activity->save();
-            });
+        // ActivityService::activityLogs('L', 'Logout');
+        // activity()
+        //     ->causedBy($event->user)
+        //     ->tap(function(Activity $activity) {
+        //         $activity->description = 'Logout';
+        //         $activity->log_name = 'L';
+        //         $activity->save();
+        //     });
     }
 }

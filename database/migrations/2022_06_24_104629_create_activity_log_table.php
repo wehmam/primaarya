@@ -28,7 +28,6 @@ class CreateActivityLogTable extends Migration
         Schema::create("cases", function (Blueprint $table) {
             $table->id();
             $table->string("session");
-            $table->string("case_name");
             $table->string("ip_address");
             $table->text("location");
             $table->timestamps();

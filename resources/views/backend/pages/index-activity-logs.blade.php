@@ -18,13 +18,14 @@
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Case ID</th>
                             <th>Log Name</th>
                             <th>Description</th>
                             <th>Product Id</th>
                             <th>Product Name</th>
                             <th>Category Id</th>
                             <th>Category Name</th>
-                            <th>Causer Id</th>
+                            {{-- <th>Causer Id</th> --}}
                             <th>Email</th>
                             <th>Date / Time</th>
                         </tr>
@@ -33,13 +34,14 @@
                        @forelse ($activityLogs as $key => $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
+                                <td>{{ $item->case_id }}</td>
                                 <td>{{ $item->log_name }}</td>
                                 <td>{{ $item->description }}</td>
                                 <td>{{ $item->category_id ?? "-" }}</td>
                                 <td>{{ $item->category->name ?? "-" }}</td>
                                 <td>{{ $item->product_id ?? "-" }}</td>
                                 <td>{{ $item->product->title ?? "-" }}</td>
-                                <td>{{ $item->causer_id }}</td>
+                                {{-- <td>{{ $item->causer_id }}</td> --}}
                                 <td>{{ $item->user->email ?? "-" }}</td>
                                 <td>{{ $item->created_at }}</td>
                             </tr>

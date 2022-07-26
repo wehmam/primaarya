@@ -10,11 +10,11 @@ class LogsExport implements FromCollection, WithHeadings
 {
 
     public function headings() : array {
-        return ["id", "log_name", "description", "product_id", "product_name", "category_id", "category_name", "causer_id", "email", 'created_at'];
+        return ["id", "case_id", "session",  "log_name", "description", "product_id", "product_name", "category_id", "category_name", "causer_id", "email", 'created_at'];
     }
     public function collection()
     {
-        $activityLogs = ActivityLog::with(['product', 'category'])
+        $activityLogs = ActivityLog::with(['product', 'category', "case"])
             ->orderBy("created_at", "DESC")
             ->get();
 
@@ -22,6 +22,8 @@ class LogsExport implements FromCollection, WithHeadings
         $activityLogs->each(function($item) use($array) {
             $array->push([
                 $item->id,
+                $item->case_id,
+                $item->case->session ?? "-",
                 $item->log_name,
                 $item->description,
                 $item->product_id ?? "-",

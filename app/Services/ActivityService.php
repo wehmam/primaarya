@@ -15,26 +15,15 @@ class ActivityService {
     public static function activityLogs($logName = '' ,$desc = '', $productId = '', $categoryId = '') {
         DB::beginTransaction();
 
-        if(!Cache::has("session_id-" . self::get_client_ip())) {
-            Cache::put("session_id-" . self::get_client_ip() , session()->getId(), 30);
-        }
-
-        return true;
-
-
-        $session_id = Cache::has("session_id-" . self::get_client_ip()) ?  Cache::get('session_id-' . self::get_client_ip()) : "";
-        dd($session_id);
-
-        // dd(session()->isValidId(session()->getId()), session()->getId());
-        // dd(session()->getId(), self::get_client_ip());
+        $session_id = session()->getId();
         $cases = Cases::where("session", $session_id)
             ->first();
 
         if(!$cases) {
             $cases = new Cases();
         }
+
         $cases->session = $session_id;
-        $cases->case_name = $logName;
         $cases->ip_address = self::get_client_ip();
         $cases->location = self::getLocation();
         $cases->save();
