@@ -45,6 +45,7 @@ Route::get('test-session' , function() {
     return response()->json([
         "status"    => true,
         "data"      => $session_id,
+        "valid_session" => session()->isValidId($session_id),
     ]);
 });
 
