@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\ActivityLogs;
 use App\Models\Cases;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\Models\Activity as ModelsActivity;
@@ -12,8 +13,35 @@ use Spatie\Activitylog\Models\Activity as ModelsActivity;
 class ActivityService {
 
     public static function activityLogs($logName = '' ,$desc = '', $productId = '', $categoryId = '') {
+        DB::beginTransaction();
+
+        if(!Cache::has("session_id-" . self::get_client_ip())) {
+            Cache::put("session_id-" . self::get_client_ip() , session()->getId(), 30);
+        }
+
+        return true;
+
+
+        $session_id = Cache::has("session_id-" . self::get_client_ip()) ?  Cache::get('session_id-' . self::get_client_ip()) : "";
+        dd($session_id);
+
+        // dd(session()->isValidId(session()->getId()), session()->getId());
+        // dd(session()->getId(), self::get_client_ip());
+        $cases = Cases::where("session", $session_id)
+            ->first();
+
+        if(!$cases) {
+            $cases = new Cases();
+        }
+        $cases->session = $session_id;
+        $cases->case_name = $logName;
+        $cases->ip_address = self::get_client_ip();
+        $cases->location = self::getLocation();
+        $cases->save();
+
         activity()->causedBy(Auth::user())
-            ->tap(function(Activity $activity) use($desc, $logName, $productId, $categoryId) {
+            ->tap(function(Activity $activity) use($desc, $logName, $productId, $categoryId, $cases) {
+                $activity->case_id = $cases->id;
                 $activity->description = $desc;
                 $activity->log_name = $logName;
                 if(!empty($productId)) {
@@ -24,6 +52,8 @@ class ActivityService {
                 }
                 $activity->save();
             });
+
+        DB::commit();
     }
 
     public static function listenEvent($eventTitle = '', $postType = '', $activity = 'Visited', $productsLog = '') {

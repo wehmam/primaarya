@@ -8,6 +8,8 @@ use App\Http\Controllers\Backend\OrdersController;
 use App\Http\Controllers\Backend\ProductBackendController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\IndexController;
+use App\Services\ActivityService;
+use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Facades\Excel;
 
 /*
@@ -31,6 +33,20 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
+
+Route::get('test-session' , function() {
+    $clientIp = ActivityService::get_client_ip();
+    if(!Cache::has("session_id-" . $clientIp)) {
+        Cache::put("session_id-" . $clientIp , session()->getId(), 30);
+    }
+
+
+    $session_id = Cache::has("session_id-" . $clientIp) ?  Cache::get('session_id-' . $clientIp) : "";
+    return response()->json([
+        "status"    => true,
+        "data"      => $session_id,
+    ]);
+});
 
 Route::prefix('')->group(function() {
     Route::get('/', [IndexController::class, 'indexHome']);

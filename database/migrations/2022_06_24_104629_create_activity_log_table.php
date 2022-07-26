@@ -13,6 +13,7 @@ class CreateActivityLogTable extends Migration
     {
         Schema::connection(config('activitylog.database_connection'))->create(config('activitylog.table_name'), function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger("case_id")->nullable();
             $table->string('log_name')->nullable();
             $table->text('description');
             $table->unsignedBigInteger('product_id')->nullable();
@@ -23,6 +24,15 @@ class CreateActivityLogTable extends Migration
             $table->timestamps();
             $table->index('log_name');
         });
+
+        Schema::create("cases", function (Blueprint $table) {
+            $table->id();
+            $table->string("session");
+            $table->string("case_name");
+            $table->string("ip_address");
+            $table->text("location");
+            $table->timestamps();
+        });
     }
 
     /**
@@ -31,5 +41,6 @@ class CreateActivityLogTable extends Migration
     public function down()
     {
         Schema::connection(config('activitylog.database_connection'))->dropIfExists(config('activitylog.table_name'));
+        Schema::dropIfExists('cases');
     }
 }

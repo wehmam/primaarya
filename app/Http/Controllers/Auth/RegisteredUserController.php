@@ -61,7 +61,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        ActivityService::activityLogs('D', 'MElakukan Register');
+        ActivityService::activityLogs('D', 'Melakukan Register');
 
         return redirect(RouteServiceProvider::HOME);
     }
